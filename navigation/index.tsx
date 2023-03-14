@@ -14,10 +14,14 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
+import HomeScreen from '../screens/HomeScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
+import DiscoverScreen from '../screens/DiscoverScreen';
+import UploadScreen from '../screens/UploadScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import NewsPageScreen from '../screens/NewsPageScreen';
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   return (
@@ -39,6 +43,7 @@ function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
+      <Stack.Screen name="NewsPage" component={NewsPageScreen} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
@@ -58,38 +63,57 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarStyle:{
+          borderRadius: 20 , 
+          paddingStart:10, 
+          paddingEnd:10, 
+          paddingBottom: 20,
+          height: 70,
+          opacity: 1
+        },
+        tabBarLabel:() => {return null}
       }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
+        name="Home"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          headerShown: false
+        }}
       />
       <BottomTab.Screen
-        name="TabTwo"
+        name="Discover"
+        component={DiscoverScreen}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="search" color={color} />,
+          headerShown: false
+        }}
+      />
+      <BottomTab.Screen
+        name="Upload"
+        component={UploadScreen}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="upload" color={color} />,
+          headerShown: false
+        }}
+      />
+      <BottomTab.Screen
+        name="Merch"
         component={TabTwoScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="tags" color={color} />,
+          headerShown: false
+        }}
+      />
+      <BottomTab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          headerShown: false
         }}
       />
     </BottomTab.Navigator>
